@@ -65,7 +65,7 @@ Status LED:
 
 **Clone/Download Project:**
 ```bash
-cd /Users/mattcarlos/Documents/PlatformIO/Projects
+cd /path/to/PlatformIO/Projects
 # (or your PlatformIO projects directory)
 ```
 
