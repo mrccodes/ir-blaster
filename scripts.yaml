@@ -1,0 +1,97 @@
+ir_learn_command:
+  alias: "Learn IR Command"
+  description: "Start IR learning mode with a command name"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "home/ir/1/listen"
+        payload: '{"name":"{{ states(''input_text.ir_command_name'') }}"}'
+    - service: input_text.set_value
+      target:
+        entity_id: input_text.ir_command_name
+      data:
+        value: ""
+    - service: notify.persistent_notification
+      data:
+        title: "IR Learning Started"
+        message: "Point remote at sensor and press button within 10 seconds"
+  icon: mdi:access-point
+
+# Generic script that takes command name as parameter
+ir_send_command:
+  alias: "Send IR Command"
+  description: "Send any IR command by name"
+  fields:
+    command:
+      description: "Command name to send"
+      example: "tv_power"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "{{ command }}"
+  icon: mdi:remote
+
+# Specific command scripts (for convenience)
+ir_tv_power:
+  alias: "TV Power"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "tv_power"
+  icon: mdi:television
+
+ir_tv_vol_up:
+  alias: "TV Volume Up"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "tv_vol_up"
+  icon: mdi:volume-plus
+
+ir_tv_vol_down:
+  alias: "TV Volume Down"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "tv_vol_down"
+  icon: mdi:volume-minus
+
+ir_fan_power:
+  alias: "Fan Power"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "fan_power"
+  icon: mdi:fan
+
+ir_fan_speed_up:
+  alias: "Fan Speed Up"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "fan_speed_up"
+  icon: mdi:fan
+
+ir_fan_speed_down:
+  alias: "Fan Speed Down"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "fan_speed_down"
+  icon: mdi:fan
+
+ir_fan_rotate:
+  alias: "Fan Rotate"
+  sequence:
+    - action: mqtt.publish
+      data:
+        topic: "home/ir/1/send"
+        payload: "fan_rotate"
+  icon: mdi:fan
